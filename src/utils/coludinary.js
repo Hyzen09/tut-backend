@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary';
 import fs from 'fs';
+import { User } from '../models/user.model';
 
 // Configuring cloudinary with the provided environment variables
 cloudinary.config({
@@ -33,5 +34,14 @@ const uploadOnCloudinary = async (localFilePath, name) => {
         return null;
     }
 };
+const deleteFromCloudinary = async (_id)=>{
+    try {
+        const user = User.findById(_id)
+        cloudinary.v2.uploader.destroy()
+        .then(result=>console.log(result));
+    } catch (error) {
+        console.error("file delete failed")
+    }
+}
 
 export { uploadOnCloudinary };
